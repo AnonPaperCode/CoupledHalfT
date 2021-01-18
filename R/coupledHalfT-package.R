@@ -2,7 +2,7 @@
 #'@aliases coupledHalfT
 #'@docType package
 #'@title coupledHalfT
-#'@author Niloy Biswas
+#'@author - -
 #'@description Coupled Bayesian Shrinkage with Half-t(v) priors
 #'@details This package contains scripts to reproduce the figures of the
 #' paper "Coupled Bayesian Shrinkage with Half-t(v) priors" 
