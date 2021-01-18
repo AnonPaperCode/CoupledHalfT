@@ -1,6 +1,6 @@
 ---
 title: "README"
-author: "Niloy Biswas"
+author: "- -"
 date: "06/12/2020"
 output: 
   html_document: 
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## CoupledHalfT
 
-This package contains scripts to reproduce the results of article "Coupled Markov chain Monte Carlo for high-dimensional regression with Half-t priors", by Niloy Biswas, Anirban Bhattacharya, Pierre E. Jacob and James E. Johndrow (https://arxiv.org/abs/2012.04798).
+This package contains scripts to reproduce the results of article "Coupled Markov chain Monte Carlo for high-dimensional regression with Half-t priors".
 
 ### Installation
 
@@ -21,7 +21,7 @@ The package can be installed from R via:
 
 ```{r install, eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("niloyb/CoupledHalfT")
+devtools::install_github("AnonPaperCode/CoupledHalfT")
 ```
 
 It depends on the packages Rcpp, RcppEigen, lubridate, which can be
