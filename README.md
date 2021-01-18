@@ -20,7 +20,7 @@ The package can be installed from R via:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("niloyb/CoupledHalfT")
+devtools::install_github("AnonPaperCode/CoupledHalfT")
 ```
 
 It depends on the packages Rcpp, RcppEigen, lubridate, which can be
