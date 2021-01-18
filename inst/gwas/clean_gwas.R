@@ -1,7 +1,6 @@
 # Script to pre-process GWAS data
 
 rm(list = ls())
-# setwd('/Users/niloybiswas/Dropbox/horseshoe_coupling/Code/')
 if (!require(pacman)) {install.packages('pacman')}
 
 pacman::p_load(ARTP2,readr,tidyr,dplyr,R.matlab,parallel,glmnet,fastR)
