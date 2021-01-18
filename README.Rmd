@@ -7,7 +7,9 @@ output:
     keep_md: yes
 ---
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ## CoupledHalfT
 
@@ -17,8 +19,7 @@ This package contains scripts to reproduce the results of article "Coupled Marko
 
 The package can be installed from R via:
 
-
-```r
+```{r install, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("niloyb/CoupledHalfT")
 ```
@@ -26,23 +27,20 @@ devtools::install_github("niloyb/CoupledHalfT")
 It depends on the packages Rcpp, RcppEigen, lubridate, which can be
 installed via:
 
-
-```r
+```{r installdependencies, eval=FALSE}
 install.packages(c("Rcpp", "RcppEigen", "lubridate"))
 ```
 
 Additionally you might want to install other packages, to help with
 parallel computation:
 
-
-```r
+```{r installparallel, eval=FALSE}
 install.packages(c("doParallel", "doRNG"))
 ```
 
 and to help with manipulating results and plotting:
 
-
-```r
+```{r installplot, eval=FALSE}
 install.packages(c("dplyr", "tidyr", "ggplot2", "viridis"))
 ```
 
@@ -50,8 +48,7 @@ install.packages(c("dplyr", "tidyr", "ggplot2", "viridis"))
 
 Generate synthetic data.
 
-
-```r
+```{r generate_data, tidy = T, cache = TRUE, warning=FALSE, message=FALSE, fig.width=7}
 set.seed(1)
 library(CoupledHalfT)
 library(dplyr)
@@ -77,8 +74,7 @@ t_dist_df <- 2
 
 Run single chain MCMC and plot traceplots. 
 
-
-```r
+```{r single_chain_plot}
 burnin <- 0
 chain_length <- 1000
 single_chain <- 
@@ -87,75 +83,39 @@ matplot(single_chain$beta_samples[,seq(2,20,4)], type = 'l', ylab = 'Beta')
 abline(h=true_beta[seq(2,20,4)], col=c(1:5)) # Solid lines: true beta
 ```
 
-![](README_files/figure-html/single_chain_plot-1.png)<!-- -->
-
 Run coupled MCMC and plot distance between chains. 
 
-
-```r
+```{r coupled_chain_plot}
 lag <- 100
 coupled_chain <- 
   coupled_half_t_mcmc(mc_chain_size=1, X, X_transpose, y, t_dist_df=t_dist_df, lag=lag)
 print(paste('Lag: ',lag,'.',' L-lag Meeting time: ',coupled_chain$meetingtime,'.',sep = ''))
-```
-
-```
-## [1] "Lag: 100. L-lag Meeting time: 126."
-```
-
-```r
 # dim(coupled_chain$beta_samples1)
 # dim(coupled_chain$beta_samples2)
 
 par(mfrow=c(1,1))
 matplot(coupled_chain$beta_samples1[2:(coupled_chain$meetingtime+2-lag),seq(2,20,4)], type = 'l',ylab = 'chain1 beta components', xlab = 'iteration')
-```
 
-![](README_files/figure-html/coupled_chain_plot-1.png)<!-- -->
-
-```r
 matplot(coupled_chain$beta_samples2[1:(coupled_chain$meetingtime+1-lag),seq(2,20,4)], type = 'l',ylab = 'chain2 beta components', xlab = 'iteration')
-```
 
-![](README_files/figure-html/coupled_chain_plot-2.png)<!-- -->
-
-```r
 par(mfrow=c(1,1))
 matplot(rowSums(abs(coupled_chain$beta_samples1[2:(coupled_chain$meetingtime+2-lag),]-coupled_chain$beta_samples2[c(1:(coupled_chain$meetingtime+1-lag)),])), type='l', ylab = '|chain1_beta-chain2_beta|_1', xlab = 'iteration', xlim = c(1,(coupled_chain$meetingtime+5-lag)))
 abline(v=(coupled_chain$meetingtime+1-lag), col='red')
 text(x=(coupled_chain$meetingtime+1-lag), y=0, "meet_time-lag")
-```
-
-![](README_files/figure-html/coupled_chain_plot-3.png)<!-- -->
-
-```r
 matplot(rowSums(abs(coupled_chain$eta_samples1[2:(coupled_chain$meetingtime+2-lag),]-coupled_chain$eta_samples2[c(1:(coupled_chain$meetingtime+1-lag)),])), type='l', ylab = '|chain1_eta-chain2_eta|_1', xlab = 'iteration', xlim = c(1,(coupled_chain$meetingtime+5-lag)))
 abline(v=(coupled_chain$meetingtime+1-lag), col='red')
 text(x=(coupled_chain$meetingtime+1-lag), y=0, "meet_time-lag")
-```
-
-![](README_files/figure-html/coupled_chain_plot-4.png)<!-- -->
-
-```r
 matplot((abs(coupled_chain$xi_samples1[2:(coupled_chain$meetingtime+2-lag)]-coupled_chain$xi_samples2[c(1:(coupled_chain$meetingtime+1-lag))])), type='l', ylab = '|chain1_xi-chain2_xi|_1', xlab = 'iteration', xlim = c(1,(coupled_chain$meetingtime+5-lag)))
 abline(v=(coupled_chain$meetingtime+1-lag), col='red')
 text(x=(coupled_chain$meetingtime+1-lag), y=0, "meet_time-lag")
-```
-
-![](README_files/figure-html/coupled_chain_plot-5.png)<!-- -->
-
-```r
 matplot((abs(coupled_chain$xi_samples1[2:(coupled_chain$meetingtime+2-lag)]-coupled_chain$xi_samples2[c(1:(coupled_chain$meetingtime+1-lag))])), type='l', ylab = '|chain1_sigma-chain2_sigma|_1', xlab = 'iteration', xlim = c(1,(coupled_chain$meetingtime+5-lag)))
 abline(v=(coupled_chain$meetingtime+1-lag), col='red')
 text(x=(coupled_chain$meetingtime+1-lag), y=0, "meet_time-lag")
 ```
 
-![](README_files/figure-html/coupled_chain_plot-6.png)<!-- -->
-
 Run coupled MCMC and generate meeting times. 
 
-
-```r
+```{r Llag_meetings, tidy = T, cache = TRUE, warning=FALSE, message=FALSE, fig.width=7}
 nrep <- 20
 lag <- 100
 tdist_meetingtimes_df <- data.frame()
@@ -167,33 +127,9 @@ for (i in 1:nrep){
 }
 ```
 
-```
-## [1]   1 134
-## [1]   2 120
-## [1]   3 117
-## [1]   4 133
-## [1]   5 114
-## [1]   6 127
-## [1]   7 128
-## [1]   8 128
-## [1]   9 114
-## [1]  10 124
-## [1]  11 150
-## [1]  12 125
-## [1]  13 131
-## [1]  14 131
-## [1]  15 123
-## [1]  16 111
-## [1]  17 128
-## [1]  18 115
-## [1]  19 119
-## [1]  20 130
-```
-
 Plot L-lag total variation bounds.
 
-
-```r
+```{r LlagTVplot}
 # Plotting L-Lag TV bounds
 tv_upper_bound_estimates <- 
   function(coupling_times, L, t){return(pmax(0,ceiling((coupling_times-L-t)/L)))}
@@ -213,6 +149,4 @@ tv_ub_df <- tdist_meetingtimes_df %>%
 plot(x=tv_ub_df$t, y=tv_ub_df$tv_ub, type = 'l', xlab = 'iteration', 
      ylab = 'Total variation distance')
 ```
-
-![](README_files/figure-html/LlagTVplot-1.png)<!-- -->
 
