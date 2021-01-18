@@ -1,6 +1,6 @@
 ---
 title: "README"
-author: "Niloy Biswas"
+author: "- -"
 date: "06/12/2020"
 output: 
   html_document: 
@@ -11,7 +11,7 @@ output:
 
 ## CoupledHalfT
 
-This package contains scripts to reproduce the results of article "Coupled Markov chain Monte Carlo for high-dimensional regression with Half-t priors", by Niloy Biswas, Anirban Bhattacharya, Pierre E. Jacob and James E. Johndrow (https://arxiv.org/abs/2012.04798).
+This package contains scripts to reproduce the results of article "Coupled Markov chain Monte Carlo for high-dimensional regression with Half-t priors".
 
 ### Installation
 
